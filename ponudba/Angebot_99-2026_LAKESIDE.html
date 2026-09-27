@@ -4,86 +4,167 @@
 <meta charset="utf-8">
 <title>Angebot 99-2026</title>
 <style>
-  @page { size: A4; margin: 12mm 18mm 10mm 18mm; }
-  body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 9.6pt; color: #111; line-height: 1.3; margin: 0; }
-  .head { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #1863DC; padding-bottom: 10px; margin-bottom: 14px; }
-  .brand { font-size: 17pt; font-weight: bold; color: #0056A7; letter-spacing: .02em; }
-  .brand small { display: block; font-size: 9pt; font-weight: normal; color: #444; margin-top: 2px; }
-  .head .right { text-align: right; font-size: 9pt; color: #444; }
-  .parties { display: flex; justify-content: space-between; gap: 30px; margin-bottom: 10px; }
-  .parties div { width: 48%; }
-  .parties b { display: block; margin-bottom: 3px; }
-  .date { text-align: right; margin-bottom: 10px; }
-  h1 { font-size: 12.5pt; margin: 0 0 8px 0; color: #1863DC; }
-  h2 { font-size: 10pt; margin: 9px 0 3px 0; }
-  ul { margin: 0 0 6px 0; padding-left: 18px; }
-  li { margin-bottom: 2px; }
-  table.prices { border-collapse: collapse; width: 62%; margin: 4px 0 8px 0; }
-  table.prices td { padding: 3px 10px; border-bottom: 1px solid #CFE0F7; }
-  table.prices td:last-child { text-align: right; white-space: nowrap; }
-  table.prices tr.total td { border-top: 2px solid #1863DC; border-bottom: none; font-weight: bold; }
-  .ust { background: #EAF2FC; border-left: 3px solid #1863DC; padding: 6px 10px; margin: 6px 0; font-size: 9.5pt; }
-  .sign { margin-top: 14px; }
-  .foot { margin-top: 10px; padding-top: 8px; border-top: 1px solid #ccc; font-size: 8.5pt; color: #666; }
+  @page { size: A4; margin: 0; }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { font-family: "DejaVu Sans", Arial, sans-serif; font-size: 8.6pt; color: #1f2a37; line-height: 1.27; }
+  .page { width: 210mm; height: 297mm; position: relative; overflow: hidden; }
+
+  .band { background: #0056A7; color: #fff; padding: 6.5mm 18mm 5mm 18mm; }
+  .band .top { display: flex; justify-content: space-between; align-items: flex-end; }
+  .band .logo { font-size: 18pt; font-weight: bold; letter-spacing: .02em; line-height: 1.1; }
+  .band .logo small { display: block; font-size: 8.5pt; font-weight: normal; letter-spacing: .12em; text-transform: uppercase; opacity: .85; margin-top: 4px; }
+  .band .contact { text-align: right; font-size: 8.3pt; line-height: 1.5; opacity: .95; }
+  .stripe { height: 2.2mm; background: #1863DC; }
+
+  .content { padding: 5.5mm 18mm 0 18mm; }
+
+  .addr { display: flex; justify-content: space-between; gap: 12mm; }
+  .addr .to { width: 90mm; }
+  .addr .to .sender { font-size: 6.8pt; color: #6b7785; border-bottom: 1px solid #c9d3df; padding-bottom: 1px; margin-bottom: 3px; }
+  .addr .to .name { font-weight: bold; }
+  .meta { width: 70mm; }
+  .meta table { border-collapse: collapse; width: 100%; font-size: 8.8pt; }
+  .meta td { padding: 1.5px 0; vertical-align: top; }
+  .meta td:first-child { color: #6b7785; width: 40%; }
+  .meta td:last-child { font-weight: 600; }
+
+  h1 { font-size: 13.5pt; color: #0056A7; margin: 4.5mm 0 0.8mm 0; letter-spacing: .01em; }
+  .sub { color: #4a5666; margin: 0 0 3.5mm 0; font-size: 8.8pt; }
+  p { margin: 0 0 2mm 0; }
+
+  h2 { font-size: 9.2pt; text-transform: uppercase; letter-spacing: .1em; color: #0056A7; margin: 3.2mm 0 1.3mm 0; padding-bottom: 0.7mm; border-bottom: 1px solid #c9d3df; }
+  ul { margin: 0; padding-left: 4.5mm; }
+  li { margin-bottom: 0.7mm; }
+
+  table.pos { border-collapse: collapse; width: 100%; margin-top: 1mm; font-size: 8.8pt; }
+  table.pos th { background: #0056A7; color: #fff; text-align: left; padding: 1.5mm 3mm; font-weight: 600; font-size: 8.4pt; letter-spacing: .05em; text-transform: uppercase; }
+  table.pos td { padding: 1.4mm 3mm; border-bottom: 1px solid #dfe6ee; vertical-align: top; }
+  table.pos tr:nth-child(even) td { background: #f5f8fc; }
+  table.pos .c { text-align: center; width: 12mm; }
+  table.pos .r { text-align: right; white-space: nowrap; width: 32mm; }
+  table.pos td small { display: block; color: #6b7785; font-size: 8pt; margin-top: 1px; }
+  table.pos tr.total td { background: #EAF2FC; border-top: 2px solid #0056A7; border-bottom: 2px solid #0056A7; font-weight: bold; font-size: 10pt; }
+
+  .ust { margin-top: 1.8mm; padding: 1.6mm 3mm; background: #f5f8fc; border-left: 3px solid #1863DC; font-size: 8.4pt; color: #3b4753; }
+
+  .cols { display: flex; gap: 10mm; }
+  .cols > div { flex: 1; }
+
+  .sign { margin-top: 3.5mm; display: flex; justify-content: space-between; align-items: flex-end; }
+  .sign .who { font-size: 9.2pt; }
+  .sign .who b { display: block; }
+  .sign .line { width: 62mm; border-top: 1px solid #1f2a37; padding-top: 1.5mm; font-size: 7.8pt; color: #6b7785; text-align: center; }
+
+  footer { position: absolute; left: 0; right: 0; bottom: 0; padding: 2.5mm 18mm 5mm 18mm; border-top: 1px solid #c9d3df; font-size: 7.4pt; color: #6b7785; display: flex; justify-content: space-between; }
 </style>
 </head>
 <body>
+<div class="page">
 
-<div class="head">
-  <div class="brand">Čistilni servis BOA<small>Fenster- und Gebäudereinigung · Maribor / Steiermark</small></div>
-  <div class="right">Goriška ulica 23a · 2000 Maribor · Slowenien<br>info@reinigung-boa.at · reinigung-boa.at<br>UID-Nr.: SI 85587249</div>
+<div class="band">
+  <div class="top">
+    <div class="logo">Čistilni servis BOA<small>Fenster- &amp; Gebäudereinigung</small></div>
+    <div class="contact">Goriška ulica 23a · 2000 Maribor · Slowenien<br>info@reinigung-boa.at · www.reinigung-boa.at<br>UID-Nr. SI 85587249</div>
+  </div>
+</div>
+<div class="stripe"></div>
+
+<div class="content">
+
+<div class="addr">
+  <div class="to">
+    <div class="sender">Čistilni servis BOA, s.p. · Goriška ulica 23a · 2000 Maribor · Slowenien</div>
+    <div class="name">LAKESIDE Real Estate Immobilien GmbH</div>
+    z. Hd. Frau Kristina Stessl<br>
+    Tillmitsch-Jösserstraße Nr. 50<br>
+    8434 Leibnitz<br>
+    Österreich
+  </div>
+  <div class="meta">
+    <table>
+      <tr><td>Angebot Nr.</td><td>99-2026</td></tr>
+      <tr><td>Datum</td><td>27.09.2026</td></tr>
+      <tr><td>Gültig bis</td><td>27.10.2026</td></tr>
+      <tr><td>Ihr Kontakt</td><td>Borut Letonja</td></tr>
+      <tr><td>Firmenbuch</td><td>FN 503860 x</td></tr>
+    </table>
+  </div>
 </div>
 
-<div class="parties">
-  <div><b>Anbieter:</b>Čistilni servis BOA, s.p.<br>Inhaber: Borut Letonja<br>Goriška ulica 23a, 2000 Maribor, Slowenien<br>E-Mail: info@reinigung-boa.at<br>UID-Nr.: SI 85587249</div>
-  <div><b>Auftraggeber:</b>LAKESIDE Real Estate Immobilien GmbH<br>z. Hd. Frau Kristina Stessl<br>Tillmitsch-Jösserstraße Nr. 50<br>8434 Leibnitz, Österreich<br>FN 503860 x</div>
-</div>
-
-<div class="date">Šentilj, 27.09.2026</div>
-
-<h1>Angebot Nr. 99-2026: Fensterreinigung außen, Gebäude 1 und 2</h1>
+<h1>Angebot Nr. 99-2026</h1>
+<p class="sub">Fensterreinigung außen · Gebäude 1 und 2 · Tillmitsch-Jösserstraße 50, 8434 Leibnitz</p>
 
 <p>Sehr geehrte Frau Stessl,</p>
-<p>gerne bieten wir Ihnen folgende Leistungen an.</p>
+<p>vielen Dank für Ihre Anfrage. Gerne unterbreiten wir Ihnen für die Außenreinigung der beiden Bürogebäude folgendes Angebot.</p>
 
-<h2>Leistungsumfang (je Gebäude):</h2>
+<h2>Leistungsumfang</h2>
+<div class="cols">
+  <div>
+    <b>Je Gebäude (1 und 2):</b>
+    <ul>
+      <li>Außenreinigung aller Fenster, Balkon- und Terrassentüren sowie der Eingangsverglasung, inklusive Rahmen</li>
+      <li>Reinigung aller außenliegenden Fensterbänke</li>
+      <li>Reinigung der außenliegenden Raffstore/Jalousien, Lamellen beidseitig</li>
+    </ul>
+  </div>
+  <div>
+    <b>Zusätzlich:</b>
+    <ul>
+      <li>Außenreinigung des Glasdurchgangs zwischen Gebäude 1 und 2</li>
+      <li>Einsatz einer Hubarbeitsbühne für die Arbeiten in der Höhe</li>
+    </ul>
+  </div>
+</div>
+
+<h2>Verfahren</h2>
 <ul>
-  <li>Außenreinigung aller Fenster, Balkon- und Terrassentüren sowie der Eingangsverglasung, inkl. Rahmen</li>
-  <li>Reinigung aller Fensterbänke außen</li>
-  <li>Reinigung der außenliegenden Raffstore/Jalousien</li>
-</ul>
-<p><b>Zusätzlich:</b> Außenreinigung des Glasdurchgangs zwischen Gebäude 1 und 2.</p>
-
-<h2>Verfahren:</h2>
-<ul>
-  <li>Die Fenster werden mit vollentsalztem Reinwasser (0 ppm) über ein Teleskopstangensystem gereinigt – streifenfrei, ohne Chemie und ohne Rückstände.</li>
-  <li>Die Raffstore werden schonend per Bürste gereinigt, ohne Hochdruck.</li>
-  <li>Für Arbeiten in der Höhe setzen wir eine Hubarbeitsbühne ein.</li>
+  <li><b>Fenster:</b> Reinigung mit vollentsalztem Reinwasser (0 ppm) über ein Teleskopstangensystem – streifenfrei, ohne Chemie, ohne Rückstände.</li>
+  <li><b>Raffstore:</b> schonende Reinigung per Bürste mit anschließender Klarspülung mit Reinwasser – kein Hochdruck.</li>
 </ul>
 
-<h2>Preise (netto):</h2>
-<table class="prices">
-  <tr><td>Gebäude 1</td><td>2.500,00 €</td></tr>
-  <tr><td>Gebäude 2</td><td>2.500,00 €</td></tr>
-  <tr><td>Glasdurchgang</td><td>inkludiert</td></tr>
-  <tr><td>Hubarbeitsbühne (Miete)</td><td>200,00 €</td></tr>
-  <tr class="total"><td>Gesamt netto</td><td>5.200,00 €</td></tr>
+<h2>Preise</h2>
+<table class="pos">
+  <tr><th class="c">Pos.</th><th>Leistung</th><th class="r">Preis netto</th></tr>
+  <tr><td class="c">1</td><td>Gebäude 1 – Fenster, Rahmen, Fensterbänke und Raffstore außen (Pauschale)</td><td class="r">2.500,00 €</td></tr>
+  <tr><td class="c">2</td><td>Gebäude 2 – Fenster, Rahmen, Fensterbänke und Raffstore außen (Pauschale)</td><td class="r">2.500,00 €</td></tr>
+  <tr><td class="c">3</td><td>Glasdurchgang zwischen Gebäude 1 und 2, außen</td><td class="r">inkludiert</td></tr>
+  <tr><td class="c">4</td><td>Hubarbeitsbühne (Miete, Pauschale)</td><td class="r">200,00 €</td></tr>
+  <tr class="total"><td></td><td>Gesamtbetrag netto</td><td class="r">5.200,00 €</td></tr>
 </table>
 
-<div class="ust"><b>Umsatzsteuer:</b> Die Rechnung wird ohne Umsatzsteuer ausgestellt. Es handelt sich um eine Leistung im Zusammenhang mit einem Grundstück in Österreich; der Leistungsort liegt daher in Österreich (§ 3a Abs. 9 UStG 1994). Die Steuerschuld geht gemäß § 19 Abs. 1 UStG 1994 auf den Leistungsempfänger über (Reverse Charge).</div>
+<div class="ust"><b>Umsatzsteuer:</b> Die Rechnung wird ohne Umsatzsteuer ausgestellt. Es handelt sich um eine Leistung im Zusammenhang mit einem Grundstück in Österreich; der Leistungsort liegt in Österreich (§ 3a Abs. 9 UStG 1994). Die Steuerschuld geht gemäß § 19 Abs. 1 UStG 1994 auf den Leistungsempfänger über (Reverse Charge).</div>
 
-<h2>Bedingungen:</h2>
-<ul>
-  <li>Wasseranschluss (Außenhahn) und Zugang zu den Gebäuden werden vom Auftraggeber bereitgestellt.</li>
-  <li>Ausführung nach Terminvereinbarung und witterungsabhängig.</li>
-  <li>Zahlungsziel: 10 Tage nach Rechnungslegung.</li>
-  <li>Gültigkeit des Angebots: 30 Tage.</li>
-</ul>
+<h2>Bedingungen</h2>
+<div class="cols">
+  <div>
+    <ul>
+      <li>Wasseranschluss (Außenhahn) und Zugang zu den Gebäuden werden bauseits bereitgestellt.</li>
+      <li>Ausführung nach Terminvereinbarung, witterungsabhängig.</li>
+    </ul>
+  </div>
+  <div>
+    <ul>
+      <li>Zahlungsziel: 10 Tage nach Rechnungslegung, ohne Abzug.</li>
+      <li>Gültigkeit des Angebots: 30 Tage ab Angebotsdatum.</li>
+    </ul>
+  </div>
+</div>
 
-<p>Für Rückfragen stehe ich Ihnen gerne zur Verfügung.</p>
+<p style="margin-top:2.5mm">Wir freuen uns auf Ihren Auftrag und stehen für Rückfragen gerne zur Verfügung.</p>
 
-<div class="sign">Mit freundlichen Grüßen<br><br>Borut Letonja<br>Čistilni servis BOA, s.p.</div>
+<div class="sign">
+  <div class="who">Mit freundlichen Grüßen<br><br><b>Borut Letonja</b>Čistilni servis BOA, s.p.</div>
+  <div class="line">Auftrag erteilt – Datum, Stempel, Unterschrift</div>
+</div>
 
+</div>
 
+<footer>
+  <span>Čistilni servis BOA, s.p. · Inhaber Borut Letonja · Goriška ulica 23a, 2000 Maribor, Slowenien</span>
+  <span>UID SI 85587249 · info@reinigung-boa.at · Seite 1/1</span>
+</footer>
+
+</div>
 </body>
 </html>
