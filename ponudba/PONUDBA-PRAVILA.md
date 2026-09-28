@@ -50,7 +50,8 @@ Na spletni strani reinigung-boa.at sta modri #1863DC in #0056A7 (spletna stran n
 
 ## Drugo podjetje: Letonja storitve d.o.o.
 
-- Predloga: `ponudba/Vzorec-ponudbe-Letonja-storitve.html` (isti slog kot BOA s.p., isti logotip).
+- Predloga: `ponudba/Vzorec-ponudbe-Letonja-storitve.html` (isti slog kot BOA s.p.).
+- Logotip d.o.o.: `ponudba/logo/logo-letonja-storitve.png` (metla in vedro v zelenem loku, iz Jasminine ponudbe; rastrska slika 169 × 110 px, širina v ponudbi 34 mm, večje ne, ker ni vektor).
 - Letonja storitve d.o.o., direktor Borut Letonja · Vrazova ulica 52, 2000 Maribor
 - ID za DDV: SI12384798 · Matična št.: 6004121000 (pri d.o.o. matična ostane, tako kot v Jasminini ponudbi)
 - Spletna stran: www.cistilni-servis-boa.si · v nogi „Podjetje ne posluje z žigom.“
