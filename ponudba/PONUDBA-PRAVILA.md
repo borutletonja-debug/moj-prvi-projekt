@@ -26,7 +26,7 @@ Na spletni strani reinigung-boa.at sta modri #1863DC in #0056A7 (spletna stran n
 - Brez telefonov, brez IBAN, brez matične številke, brez uvodnega stavka „hvala za ogled“.
 - Cene kot seznam v vrsticah, ne tabela.
 - Ena stran A4.
-- Predloga: `ponudba/Angebot_99-2026_LAKESIDE.html` (nemško). PDF nastane s Chromium:
+- Predloga z logotipom: `ponudba/Vzorec-ponudbe-BOA.html` (slovensko, vzorec). Nemški zgled: `ponudba/Angebot_99-2026_LAKESIDE.html`. PDF nastane s Chromium:
   `chrome --headless --no-sandbox --no-pdf-header-footer --print-to-pdf=X.pdf file://X.html`
 
 ## Podatki ponudnika
