@@ -11,7 +11,7 @@ Ta datoteka je spomin za vsako naslednjo ponudbo. Kdor dela ponudbo, jo najprej 
 - `logo-boa-bel.svg` / `.pdf` — vse belo (za temno podlago).
 - `logo-boa-crn.svg` / `.pdf` — vse črno (#231f20), za črno-beli tisk.
 - Barve iz SVG (uradne): modra **#00C0FA**, zelena **#7ED90D**.
-- V ponudbi: zgoraj levo, širina 45–50 mm (ker vključuje napis), na belem papirju original.
+- V ponudbi: zgoraj desno, širina 48 mm (ker vključuje napis), na belem papirju original.
 
 Fotografija nalepke (`logo-boa-foto.jpg`, `logo-boa-original-foto.jpg`, 28. 9. 2026) ostane samo za primerjavo; barve s fotografije (#0653AE, #4EA345) so bile napačne zaradi odsevov — ne uporabljaj jih.
 
@@ -22,7 +22,7 @@ Na spletni strani reinigung-boa.at sta modri #1863DC in #0056A7 (spletna stran n
 ## Oblika ponudbe (potrjena 27. 9. 2026)
 
 - Bel papir, črno besedilo, naslov ponudbe in črte v modri logotipa **#00C0FA**; ime ponudnika „Čistilni servis BOA, s.p.“ v **črni** (potrjeno 28. 9. 2026). Brez temno modrih pasov ali glav — uporabnik jih ne mara.
-- Logotip zgoraj levo, majhen (največ 30 mm širine).
+- Logotip **zgoraj desno**, širina 48 mm (vektorski original z napisom). Potrjeno 28. 9. 2026.
 - Brez telefonov, brez IBAN, brez matične številke, brez uvodnega stavka „hvala za ogled“.
 - Cene kot seznam v vrsticah, ne tabela.
 - Ena stran A4.
