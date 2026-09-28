@@ -4,18 +4,24 @@ Ta datoteka je spomin za vsako naslednjo ponudbo. Kdor dela ponudbo, jo najprej 
 
 ## Logotip
 
-- Datoteka: `ponudba/logo/logo-boa-foto.jpg` (izrez s fotografije nalepke na kombiju, 28. 9. 2026).
-- Izvirna fotografija: `ponudba/logo/logo-boa-original-foto.jpg`.
-- Motiv: modra hiša z oknom in dimnikom, modro brisalo za okna zgoraj desno, zeleni valovi/list spodaj, trije modri bleščeči kristali, krog pol zelen (levo zgoraj) in pol moder (desno spodaj).
-- Barve, izmerjene s fotografije (približno; sonce in odsevi jih spremenijo):
-  - modra: **#0653AE** (temno modra hiše in kroga)
-  - zelena: **#4EA345**
-- Na spletni strani reinigung-boa.at sta modri #1863DC in #0056A7.
-- **Odprto:** za čist tisk rabimo vektorsko datoteko (SVG ali PDF) od oblikovalca. Fotografija ima odseve in ni primerna za povečavo.
+**Vektorski logotip (uporabi tega):** od oblikovalca Jana Žnidarja, poslala Jasmina po mailu 3. 10. 2024 (mapa `ponudba/logo/`). Vsak je v SVG in PDF, razmerje 904 × 282 (širina : višina ≈ 3,2 : 1).
+
+- `logo-boa-original.svg` / `.pdf` — **glavni.** Ikona (hiša, brisalo, valovi, kristali, zelen krog) + napis „Boa Čistilni Servis“, vse modro, krog zelen.
+- `logo-boa-alter.svg` / `.pdf` — enako, le napis „Čistilni Servis“ zelen.
+- `logo-boa-bel.svg` / `.pdf` — vse belo (za temno podlago).
+- `logo-boa-crn.svg` / `.pdf` — vse črno (#231f20), za črno-beli tisk.
+- Barve iz SVG (uradne): modra **#00C0FA**, zelena **#7ED90D**.
+- V ponudbi: zgoraj levo, širina 45–50 mm (ker vključuje napis), na belem papirju original.
+
+Fotografija nalepke (`logo-boa-foto.jpg`, `logo-boa-original-foto.jpg`, 28. 9. 2026) ostane samo za primerjavo; barve s fotografije (#0653AE, #4EA345) so bile napačne zaradi odsevov — ne uporabljaj jih.
+
+Na spletni strani reinigung-boa.at sta modri #1863DC in #0056A7 (spletna stran ne uporablja uradnih barv logotipa).
+
+**Vzorec Jasminine ponudbe 2025:** `ponudba/Ponudba-OS-Tabor-2025-vzorec.pdf` (glava „Letonja storitve d.o.o.“, 2 strani) — samo kot zgled postavitve, podatki podjetja niso od BOA s.p.
 
 ## Oblika ponudbe (potrjena 27. 9. 2026)
 
-- Bel papir, črno besedilo, naslovi v svetlo morsko modri **#4FB3D9**. Brez temno modrih pasov ali glav — uporabnik jih ne mara.
+- Bel papir, črno besedilo, naslovi v svetlo morsko modri **#4FB3D9** (ali modra logotipa #00C0FA). Brez temno modrih pasov ali glav — uporabnik jih ne mara.
 - Logotip zgoraj levo, majhen (največ 30 mm širine).
 - Brez telefonov, brez IBAN, brez matične številke, brez uvodnega stavka „hvala za ogled“.
 - Cene kot seznam v vrsticah, ne tabela.
