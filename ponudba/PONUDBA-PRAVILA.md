@@ -47,3 +47,13 @@ Na spletni strani reinigung-boa.at sta modri #1863DC in #0056A7 (spletna stran n
 1. Slovenski osnutek v dokument, uporabnik ga popravi sam.
 2. Nemški PDF, identičen popravljenemu slovenskemu.
 3. PDF uporabniku v pogovor. Stranki se pošlje **samo** na izrecni „pošlji“.
+
+## Drugo podjetje: Letonja storitve d.o.o.
+
+- Predloga: `ponudba/Vzorec-ponudbe-Letonja-storitve.html` (isti slog kot BOA s.p., isti logotip).
+- Letonja storitve d.o.o., direktor Borut Letonja · Vrazova ulica 52, 2000 Maribor
+- ID za DDV: SI12384798 · Matična št.: 6004121000 (pri d.o.o. matična ostane, tako kot v Jasminini ponudbi)
+- Spletna stran: www.cistilni-servis-boa.si · v nogi „Podjetje ne posluje z žigom.“
+- Številčenje po Jasmininem vzorcu: 15/2025 je bila ponudba OŠ Tabor. Naslednja: 16/2025 (uporabnik naj potrdi zadnjo številko).
+- Cene po m² (zgled 2025: okna 1,7 €/m², žaluzije 3,3 €/m², košara 190 €/dan), DDV 22 %, skupaj z DDV.
+- Podpis: „Letonja storitve d.o.o. / Borut Letonja, direktor“.
