@@ -21,7 +21,7 @@ Na spletni strani reinigung-boa.at sta modri #1863DC in #0056A7 (spletna stran n
 
 ## Oblika ponudbe (potrjena 27. 9. 2026)
 
-- Bel papir, črno besedilo, naslovi v svetlo morsko modri **#4FB3D9** (ali modra logotipa #00C0FA). Brez temno modrih pasov ali glav — uporabnik jih ne mara.
+- Bel papir, črno besedilo, naslov ponudbe in črte v modri logotipa **#00C0FA**; ime ponudnika „Čistilni servis BOA, s.p.“ v **črni** (potrjeno 28. 9. 2026). Brez temno modrih pasov ali glav — uporabnik jih ne mara.
 - Logotip zgoraj levo, majhen (največ 30 mm širine).
 - Brez telefonov, brez IBAN, brez matične številke, brez uvodnega stavka „hvala za ogled“.
 - Cene kot seznam v vrsticah, ne tabela.
