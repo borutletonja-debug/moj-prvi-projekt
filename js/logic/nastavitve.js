@@ -10,6 +10,7 @@ export const DEFAULT_SETTINGS = Object.freeze({
   goals: { kcal: 2000, protein: 150, fat: 70, carbs: 200 },
   theme: 'dark', // 'dark' | 'light' | 'system'
   tolerancePct: 5,
+  goalHistory: [], // [{ from: 'YYYY-MM-DD', goals }] – kateri cilji so veljali od katerega dne
   firstUse: null, // 'YYYY-MM-DD'
   lastBackup: null, // 'YYYY-MM-DD'
 });
@@ -60,4 +61,33 @@ export function backupDue(settings, today, hasData, days = 14) {
   const ref = settings.lastBackup || settings.firstUse;
   if (!ref) return false;
   return daysBetween(ref, today) >= days;
+}
+
+/** Validacija tolerance za »cilj dosežen« (v %). */
+export function validateTolerance(input) {
+  return validateNumber(input, { min: 0, max: 50 });
+}
+
+const BEGINNING = '0000-00-00';
+
+/**
+ * Sprememba ciljev: vrne popravek nastavitev { goals, goalHistory }.
+ * Stari cilji ostanejo veljavni za pretekle dni, novi veljajo od `today` naprej.
+ */
+export function withGoalChange(settings, newGoals, today) {
+  const history = (settings.goalHistory?.length
+    ? settings.goalHistory
+    : [{ from: BEGINNING, goals: { ...settings.goals } }]
+  ).filter((h) => h.from !== today);
+  history.push({ from: today, goals: { ...newGoals } });
+  history.sort((a, b) => a.from.localeCompare(b.from));
+  return { goals: { ...newGoals }, goalHistory: history };
+}
+
+/** Cilji, ki so veljali na izbrani dan. */
+export function goalsForDate(settings, date) {
+  const history = settings.goalHistory || [];
+  let found = null;
+  for (const h of history) if (h.from <= date) found = h;
+  return found ? found.goals : (history[0]?.goals ?? settings.goals);
 }

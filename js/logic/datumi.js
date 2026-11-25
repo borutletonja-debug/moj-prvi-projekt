@@ -55,3 +55,21 @@ export function formatDateShort(key) {
   const d = parseDateKey(key);
   return `${d.getDate()}. ${d.getMonth() + 1}. ${d.getFullYear()}`;
 }
+
+const DNEVI_KRATKO = ['ned', 'pon', 'tor', 'sre', 'čet', 'pet', 'sob'];
+
+/** "sre, 25. 11." */
+export function formatDayShort(key) {
+  const d = parseDateKey(key);
+  return `${DNEVI_KRATKO[d.getDay()]}, ${d.getDate()}. ${d.getMonth() + 1}.`;
+}
+
+/** Razpon tedna: "23.–29. november 2026" ali "30. november – 6. december 2026". */
+export function formatWeekRange(start) {
+  const a = parseDateKey(start);
+  const b = parseDateKey(addDays(start, 6));
+  if (a.getMonth() === b.getMonth()) {
+    return `${a.getDate()}.–${b.getDate()}. ${MESECI[b.getMonth()]} ${b.getFullYear()}`;
+  }
+  return `${a.getDate()}. ${MESECI[a.getMonth()]} – ${b.getDate()}. ${MESECI[b.getMonth()]} ${b.getFullYear()}`;
+}

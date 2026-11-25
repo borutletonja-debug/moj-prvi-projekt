@@ -2,11 +2,6 @@
 import { h, setChildren, icon } from './komponente.js';
 
 const TEXT = {
-  zgodovina: {
-    title: 'Zgodovina',
-    icon: 'history',
-    body: 'Seznam dni, združen po tednih, s tedenskimi povzetki in primerjavo s ciljem. Prihaja v fazi 2.',
-  },
   teza: {
     title: 'Teža',
     icon: 'weight',

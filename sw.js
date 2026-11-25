@@ -1,6 +1,6 @@
 // Service worker: aplikacija deluje brez internetne povezave.
 // Ob vsaki objavi povečaj VERSION (in APP_VERSION v js/verzija.js).
-const VERSION = '1.0.0';
+const VERSION = '1.1.0';
 const CACHE = `tilen-letonja-${VERSION}`;
 
 const FILES = [
@@ -19,6 +19,9 @@ const FILES = [
   './js/logic/nastavitve.js',
   './js/logic/prehrana.js',
   './js/logic/stevila.js',
+  './js/logic/tedni.js',
+  './js/ui/dan.js',
+  './js/ui/zgodovina.js',
   './js/ui/danes.js',
   './js/ui/kmalu.js',
   './js/ui/knjiznica.js',

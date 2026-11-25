@@ -1,6 +1,9 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mergeSettings, validateGoals, macroMismatch, backupDue, DEFAULT_SETTINGS } from '../js/logic/nastavitve.js';
+import {
+  mergeSettings, validateGoals, macroMismatch, backupDue, DEFAULT_SETTINGS,
+  withGoalChange, goalsForDate, validateTolerance,
+} from '../js/logic/nastavitve.js';
 
 test('mergeSettings dopolni manjkajoča polja', () => {
   const s = mergeSettings({ goals: { kcal: 1800 }, theme: 'light' });
@@ -35,4 +38,31 @@ test('backupDue', () => {
   assert.equal(backupDue(s, '2026-11-15', false), false);
   assert.equal(backupDue({ ...s, lastBackup: '2026-11-14' }, '2026-11-20', true), false);
   assert.equal(backupDue({ firstUse: null, lastBackup: null }, '2026-11-20', true), false);
+});
+
+test('zgodovina ciljev: pretekli dnevi obdržijo stare cilje', () => {
+  let s = mergeSettings({ goals: { kcal: 2000, protein: 150, fat: 70, carbs: 200 } });
+  assert.equal(goalsForDate(s, '2026-11-01').kcal, 2000);
+
+  s = { ...s, ...withGoalChange(s, { ...s.goals, kcal: 1800 }, '2026-11-20') };
+  assert.equal(s.goals.kcal, 1800);
+  assert.equal(goalsForDate(s, '2026-11-19').kcal, 2000);
+  assert.equal(goalsForDate(s, '2026-11-20').kcal, 1800);
+  assert.equal(goalsForDate(s, '2026-12-24').kcal, 1800);
+
+  // druga sprememba isti dan prepiše prvo
+  s = { ...s, ...withGoalChange(s, { ...s.goals, kcal: 1700 }, '2026-11-20') };
+  assert.equal(s.goalHistory.length, 2);
+  assert.equal(goalsForDate(s, '2026-11-21').kcal, 1700);
+
+  s = { ...s, ...withGoalChange(s, { ...s.goals, kcal: 2100 }, '2026-12-01') };
+  assert.equal(goalsForDate(s, '2026-11-25').kcal, 1700);
+  assert.equal(goalsForDate(s, '2026-12-01').kcal, 2100);
+});
+
+test('validateTolerance', () => {
+  assert.equal(validateTolerance('5').value, 5);
+  assert.equal(validateTolerance('7,5').value, 7.5);
+  assert.ok(validateTolerance('-1').error);
+  assert.ok(validateTolerance('80').error);
 });

@@ -83,6 +83,19 @@ export async function deleteEntry(id) {
   changed('entries');
 }
 
+// ----- Dnevi (oznaka »nepopoln«) -----
+export const getDays = () => db.getAll('days');
+
+export async function isIncomplete(date) {
+  return !!(await db.get('days', date))?.incomplete;
+}
+
+export async function setIncomplete(date, incomplete) {
+  if (incomplete) await db.put('days', { date, incomplete: true });
+  else await db.del('days', date);
+  changed('days');
+}
+
 // ----- Varnostna kopija -----
 export const exportAll = db.exportAll;
 

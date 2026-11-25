@@ -5,11 +5,12 @@ import { todayKey } from './logic/datumi.js';
 import * as danes from './ui/danes.js';
 import * as knjiznica from './ui/knjiznica.js';
 import * as nastavitve from './ui/nastavitve.js';
+import * as zgodovina from './ui/zgodovina.js';
 import * as kmalu from './ui/kmalu.js';
 
 const TABS = [
   { id: 'danes', label: 'Danes', icon: 'today', render: (root, ctx) => danes.render(root, ctx) },
-  { id: 'zgodovina', label: 'Zgodovina', icon: 'history', render: (root, ctx) => kmalu.render(root, ctx, 'zgodovina') },
+  { id: 'zgodovina', label: 'Zgodovina', icon: 'history', render: (root, ctx, param) => zgodovina.render(root, ctx, param) },
   { id: 'teza', label: 'Teža', icon: 'weight', render: (root, ctx) => kmalu.render(root, ctx, 'teza') },
   { id: 'knjiznica', label: 'Knjižnica', icon: 'library', render: (root, ctx) => knjiznica.render(root, ctx) },
   { id: 'nastavitve', label: 'Nastavitve', icon: 'settings', render: (root, ctx) => nastavitve.render(root, ctx) },
@@ -18,6 +19,7 @@ const TABS = [
 const screen = document.getElementById('screen');
 const tabbar = document.getElementById('tabbar');
 let current = null;
+let currentParam = null;
 let renderedDate = todayKey();
 let renderSeq = 0;
 
@@ -28,20 +30,28 @@ function applyTheme(theme) {
 
 const ctx = { navigate, applyTheme };
 
-function tabFromHash() {
-  const id = location.hash.replace('#', '');
-  return TABS.find((t) => t.id === id) ? id : 'danes';
+/** '#zgodovina/2026-11-20' -> { id: 'zgodovina', param: '2026-11-20' } */
+function routeFromHash() {
+  const [id, param = null] = location.hash.replace('#', '').split('/');
+  return TABS.find((t) => t.id === id) ? { id, param } : { id: 'danes', param: null };
 }
 
-function navigate(id) {
-  if (location.hash !== `#${id}`) location.hash = id; // sproži hashchange
-  else show(id);
+function showRoute(opts) {
+  const r = routeFromHash();
+  return show(r.id, r.param, opts);
 }
 
-async function show(id, { keepScroll = false } = {}) {
+/** navigate('zgodovina') ali navigate('zgodovina/2026-11-20') */
+function navigate(path) {
+  if (location.hash !== `#${path}`) location.hash = path; // sproži hashchange
+  else showRoute();
+}
+
+async function show(id, param = null, { keepScroll = false } = {}) {
   const tab = TABS.find((t) => t.id === id) || TABS[0];
-  const changedTab = current !== tab.id;
+  const changedTab = current !== tab.id || currentParam !== param;
   current = tab.id;
+  currentParam = param;
   for (const b of tabbar.children) {
     if (b.dataset.tab === tab.id) b.setAttribute('aria-current', 'page');
     else b.removeAttribute('aria-current');
@@ -49,7 +59,7 @@ async function show(id, { keepScroll = false } = {}) {
   const seq = ++renderSeq;
   const root = document.createElement('div');
   try {
-    await tab.render(root, ctx);
+    await tab.render(root, ctx, param);
   } catch (e) {
     console.error(e);
     root.replaceChildren(h('div', { class: 'card' }, h('strong', {}, 'Napaka pri prikazu'), h('p', { class: 'muted' }, e.message)));
@@ -66,7 +76,7 @@ function buildTabbar() {
   tabbar.replaceChildren(...TABS.map((t) => h('button', {
     class: 'tab', type: 'button', dataset: { tab: t.id },
     onclick: () => {
-      if (current === t.id) window.scrollTo({ top: 0, behavior: 'smooth' });
+      if (current === t.id && !currentParam) window.scrollTo({ top: 0, behavior: 'smooth' });
       else navigate(t.id);
     },
   }, icon(t.icon), h('span', {}, t.label))));
@@ -122,12 +132,12 @@ async function start() {
   if (!s.firstUse) await stanje.saveSettings({ firstUse: todayKey() });
 
   buildTabbar();
-  window.addEventListener('hashchange', () => show(tabFromHash()));
-  stanje.onChange(() => show(current, { keepScroll: true }));
+  window.addEventListener('hashchange', () => showRoute());
+  stanje.onChange(() => show(current, currentParam, { keepScroll: true }));
 
   // Če je aplikacija odprta čez polnoč, osveži zaslon »Danes«.
   document.addEventListener('visibilitychange', () => {
-    if (!document.hidden && renderedDate !== todayKey()) show(current, { keepScroll: false });
+    if (!document.hidden && renderedDate !== todayKey()) show(current, currentParam);
   });
 
   // Ob zagonu se vedno odpre »Danes«.
