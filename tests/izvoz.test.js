@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { buildBackup, validateBackup, toCSV, entriesCSV, foodsCSV } from '../js/logic/izvoz.js';
+import { buildBackup, validateBackup, toCSV, entriesCSV, foodsCSV, weightsCSV } from '../js/logic/izvoz.js';
 
 const sample = {
   foods: [{ id: 'f1', name: 'Riž', basis: '100g', kcal: 130, protein: 2.7, fat: 0.3, carbs: 28, pieceWeight: null, favorite: true }],
@@ -41,4 +41,6 @@ test('entriesCSV in foodsCSV z decimalno vejico', () => {
   assert.equal(e[1], '2026-11-25;Riž;150;g;195;4,1;0,5;42,0');
   const f = foodsCSV(sample.foods).slice(1).split('\r\n');
   assert.equal(f[1], 'Riž;na 100 g;130;2,7;0,3;28;;da');
+  const w = weightsCSV([{ date: '2026-11-25', kg: 79.85 }, { date: '2026-11-20', kg: 80 }]).slice(1).split('\r\n');
+  assert.deepEqual(w.slice(0, 3), ['Datum;Teža (kg)', '2026-11-20;80', '2026-11-25;79,85']);
 });

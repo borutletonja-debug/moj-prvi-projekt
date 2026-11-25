@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
   mergeSettings, validateGoals, macroMismatch, backupDue, DEFAULT_SETTINGS,
-  withGoalChange, goalsForDate, validateTolerance,
+  withGoalChange, goalsForDate, validateTolerance, validateProfile, validateWeightGoal,
 } from '../js/logic/nastavitve.js';
 
 test('mergeSettings dopolni manjkajoča polja', () => {
@@ -65,4 +65,29 @@ test('validateTolerance', () => {
   assert.equal(validateTolerance('7,5').value, 7.5);
   assert.ok(validateTolerance('-1').error);
   assert.ok(validateTolerance('80').error);
+});
+
+test('validateProfile', () => {
+  const ok = validateProfile({ sex: 'male', birthYear: '2004', heightCm: '181,5', activity: 'moderate' }, 2026);
+  assert.equal(ok.ok, true);
+  assert.deepEqual(ok.value, { sex: 'male', birthYear: 2004, heightCm: 181.5, activity: 'moderate' });
+  const empty = validateProfile({ sex: '', birthYear: '', heightCm: '', activity: '' }, 2026);
+  assert.equal(empty.ok, true);
+  assert.deepEqual(empty.value, { sex: null, birthYear: null, heightCm: null, activity: null });
+  const bad = validateProfile({ birthYear: '2020', heightCm: '18' }, 2026);
+  assert.ok(bad.errors.birthYear && bad.errors.heightCm);
+  assert.ok(validateProfile({ birthYear: '2004,5' }, 2026).errors.birthYear);
+});
+
+test('validateWeightGoal', () => {
+  const ok = validateWeightGoal({ targetKg: '75', direction: 'lose', rateKgPerWeek: '0,5' });
+  assert.deepEqual(ok.value, { targetKg: 75, direction: 'lose', rateKgPerWeek: 0.5 });
+  assert.ok(validateWeightGoal({ direction: 'lose', rateKgPerWeek: '' }).errors.rateKgPerWeek);
+  assert.ok(validateWeightGoal({ direction: 'gain', rateKgPerWeek: '0' }).errors.rateKgPerWeek);
+  assert.ok(validateWeightGoal({ direction: 'lose', rateKgPerWeek: '3' }).errors.rateKgPerWeek);
+  const m = validateWeightGoal({ targetKg: '', direction: 'maintain', rateKgPerWeek: '' });
+  assert.equal(m.ok, true);
+  assert.equal(m.value.targetKg, null);
+  assert.equal(mergeSettings({}).weightGoal.direction, 'maintain');
+  assert.equal(mergeSettings({ profile: { sex: 'female' } }).profile.heightCm, null);
 });

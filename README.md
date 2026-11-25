@@ -1,13 +1,13 @@
 # Tilen Letonja – beleženje hrane in teže
 
-Spletna aplikacija (PWA) za iPhone: beleženje hrane, štetje kalorij in makrohranil ter (v fazi 3) spremljanje teže.
+Spletna aplikacija (PWA) za iPhone: beleženje hrane, štetje kalorij in makrohranil ter spremljanje teže z oceno porabe.
 Brez strežnika in brez prijave – vsi podatki so shranjeni samo na telefonu (IndexedDB). Deluje tudi brez povezave.
 
 ## Stanje
 
 - [x] **Faza 1:** knjižnica živil (s priljubljenimi), zaslon Danes, dnevni cilji, tema, izvoz/uvoz JSON, izvoz CSV
 - [x] **Faza 2:** zgodovina po tednih s povzetki, oznaka »nepopoln dan«, toleranca, zgodovina ciljev
-- [ ] **Faza 3:** teža, trendi, ocena porabe (TDEE) in priporočen vnos
+- [x] **Faza 3:** teža z grafom in trendom, tedenska tabela, ocena porabe (TDEE) z indikatorjem zanesljivosti, priporočen vnos
 
 ## Struktura
 

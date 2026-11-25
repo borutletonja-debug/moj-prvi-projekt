@@ -58,6 +58,16 @@ export function formatMacro(n) {
   return r.toFixed(1).replace('.', ',');
 }
 
+/** Predznačeno število: "+0,3", "−0,4", "0" (pravi minus). */
+export function formatSigned(n, decimals = 1) {
+  if (!Number.isFinite(n)) return '–';
+  const f = 10 ** decimals;
+  const r = noNegZero(Math.round(n * f) / f);
+  const abs = Math.abs(r).toFixed(decimals).replace('.', ',');
+  if (r === 0) return abs;
+  return (r > 0 ? '+' : '\u2212') + abs;
+}
+
 /** Splošno število (npr. količina): do `decimals` decimalk, brez odvečnih ničel. */
 export function formatNumber(n, decimals = 2) {
   if (!Number.isFinite(n)) return '–';

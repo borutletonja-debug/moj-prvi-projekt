@@ -96,6 +96,24 @@ export async function setIncomplete(date, incomplete) {
   changed('days');
 }
 
+// ----- Teža (ena meritev na dan) -----
+export const getWeights = () => db.getAll('weights');
+
+/** Shrani meritev; obstoječo meritev istega dne zamenja. */
+export async function saveWeight({ id, date, kg }) {
+  const sameDay = await db.getByIndex('weights', 'date', date);
+  for (const w of sameDay) if (w.id !== id) await db.del('weights', w.id);
+  const w = { id: id ?? db.newId(), date, kg, updatedAt: Date.now() };
+  await db.put('weights', w);
+  changed('weights');
+  return w;
+}
+
+export async function deleteWeight(id) {
+  await db.del('weights', id);
+  changed('weights');
+}
+
 // ----- Varnostna kopija -----
 export const exportAll = db.exportAll;
 
