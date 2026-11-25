@@ -6,7 +6,7 @@ Brez strežnika in brez prijave – vsi podatki so shranjeni samo na telefonu (I
 ## Stanje
 
 - [x] **Faza 1:** knjižnica živil (s priljubljenimi), zaslon Danes, dnevni cilji, tema, izvoz/uvoz JSON, izvoz CSV
-- [ ] **Faza 2:** zgodovina s tedenskimi povzetki
+- [x] **Faza 2:** zgodovina po tednih s povzetki, oznaka »nepopoln dan«, toleranca, zgodovina ciljev
 - [ ] **Faza 3:** teža, trendi, ocena porabe (TDEE) in priporočen vnos
 
 ## Struktura

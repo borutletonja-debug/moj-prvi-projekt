@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import {
-  toDateKey, todayKey, addDays, daysBetween, weekStart, isValidDateKey, formatDayLong, formatDateShort,
+  toDateKey, todayKey, addDays, daysBetween, weekStart, isValidDateKey, formatDayLong, formatDateShort, formatDayShort, formatWeekRange,
 } from '../js/logic/datumi.js';
 
 test('lokalni datum, tudi tik po polnoči', () => {
@@ -41,4 +41,8 @@ test('isValidDateKey', () => {
 test('slovenski zapis datuma', () => {
   assert.equal(formatDayLong('2026-11-25'), 'sreda, 25. november');
   assert.equal(formatDateShort('2026-11-25'), '25. 11. 2026');
+  assert.equal(formatDayShort('2026-11-25'), 'sre, 25. 11.');
+  assert.equal(formatWeekRange('2026-11-23'), '23.–29. november 2026');
+  assert.equal(formatWeekRange('2026-11-30'), '30. november – 6. december 2026');
+  assert.equal(formatWeekRange('2026-12-28'), '28. december – 3. januar 2027');
 });

@@ -1,6 +1,6 @@
 // Zaslon »Nastavitve«.
 import { h, setChildren, field, segmented, chainInputs, confirmDialog, toast } from './komponente.js';
-import { validateGoals, macroMismatch } from '../logic/nastavitve.js';
+import { validateGoals, macroMismatch, withGoalChange, validateTolerance } from '../logic/nastavitve.js';
 import { buildBackup, validateBackup, entriesCSV, foodsCSV } from '../logic/izvoz.js';
 import { formatKcal, formatNumber } from '../logic/stevila.js';
 import { todayKey, formatDateShort } from '../logic/datumi.js';
@@ -17,6 +17,10 @@ export async function render(root, ctx) {
   const protein = field({ label: 'Beljakovine', value: formatNumber(g.protein), suffix: 'g' });
   const fat = field({ label: 'Maščobe', value: formatNumber(g.fat), suffix: 'g' });
   const carbs = field({ label: 'Ogljikovi hidrati', value: formatNumber(g.carbs), suffix: 'g' });
+  const tolerance = field({
+    label: 'Toleranca za »cilj dosežen«', value: formatNumber(s.tolerancePct), suffix: '± %',
+    help: 'Tedensko povprečje kalorij sme od cilja odstopati za toliko odstotkov.',
+  });
   const goalFields = { kcal, protein, fat, carbs };
   const mismatch = h('div', { class: 'notice', hidden: true });
   const saveGoalsBtn = h('button', { class: 'btn primary block', type: 'button', disabled: true }, 'Shrani cilje');
@@ -24,7 +28,8 @@ export async function render(root, ctx) {
   const readGoals = () => validateGoals({ kcal: kcal.value, protein: protein.value, fat: fat.value, carbs: carbs.value });
   const checkGoals = () => {
     const r = readGoals();
-    const dirty = Object.entries(goalFields).some(([k, f]) => f.value.trim() !== formatNumber(g[k]));
+    const dirty = Object.entries(goalFields).some(([k, f]) => f.value.trim() !== formatNumber(g[k]))
+      || tolerance.value.trim() !== formatNumber(s.tolerancePct);
     saveGoalsBtn.disabled = !dirty;
     const m = r.ok ? macroMismatch(r.value) : null;
     mismatch.hidden = !m;
@@ -36,13 +41,21 @@ export async function render(root, ctx) {
   const saveGoals = async () => {
     const r = readGoals();
     for (const [k, f] of Object.entries(goalFields)) f.setError(r.errors[k]);
-    if (!r.ok) return;
+    const tol = validateTolerance(tolerance.value);
+    tolerance.setError(tol.error);
+    if (!r.ok || tol.error) return;
     document.activeElement?.blur();
-    await stanje.saveSettings({ goals: r.value });
+    const goalsChanged = Object.keys(r.value).some((k) => r.value[k] !== g[k]);
+    await stanje.saveSettings({
+      // stari cilji ostanejo veljavni za pretekle dni
+      ...(goalsChanged ? withGoalChange(s, r.value, todayKey()) : {}),
+      tolerancePct: tol.value,
+    });
     toast('Cilji shranjeni');
   };
   for (const f of Object.values(goalFields)) f.input.addEventListener('input', () => { f.setError(null); checkGoals(); });
-  chainInputs([kcal.input, protein.input, fat.input, carbs.input], saveGoals);
+  tolerance.input.addEventListener('input', () => { tolerance.setError(null); checkGoals(); });
+  chainInputs([kcal.input, protein.input, fat.input, carbs.input, tolerance.input], saveGoals);
   saveGoalsBtn.addEventListener('click', saveGoals);
   checkGoals();
 
@@ -70,6 +83,8 @@ export async function render(root, ctx) {
 
     h('div', { class: 'section-title' }, 'Dnevni cilji'),
     h('div', { class: 'list' }, kcal.el, protein.el, fat.el, carbs.el),
+    h('div', { class: 'list', style: 'margin-top: 14px' }, tolerance.el),
+    h('p', { class: 'muted small', style: 'margin: 8px 4px 0' }, 'Novi cilji veljajo od danes naprej. Pretekli dnevi se primerjajo s cilji, ki so veljali takrat.'),
     h('div', { style: 'margin-top: 12px' }, mismatch),
     saveGoalsBtn,
 

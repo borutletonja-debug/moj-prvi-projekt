@@ -501,3 +501,65 @@ button.row:active, .row.tappable:active { background: var(--surface-2); }
     transition-duration: 1ms !important;
   }
 }
+
+/* ===== Zgodovina ===== */
+.week { margin-bottom: 26px; }
+.week-head { display: flex; align-items: center; gap: 10px; margin: 6px 4px 10px; }
+.week-head h2 { margin: 0; font-size: 19px; font-weight: 700; }
+.day-title::first-letter { text-transform: uppercase; }
+.chev { color: var(--text-3); font-size: 24px; line-height: 1; margin-left: -4px; }
+
+.badge {
+  display: inline-block; padding: 3px 9px; border-radius: 99px;
+  font-size: 12px; font-weight: 700; white-space: nowrap;
+  background: var(--surface-3); color: var(--text-2);
+}
+.badge.progress { background: color-mix(in srgb, var(--accent) 18%, transparent); color: var(--accent); }
+.badge.ok { background: color-mix(in srgb, var(--protein) 18%, transparent); color: var(--protein); }
+.badge.warn { background: color-mix(in srgb, var(--fat) 18%, transparent); color: var(--fat); }
+.badge.bad { background: color-mix(in srgb, var(--over) 18%, transparent); color: var(--over); }
+
+.summary { margin-top: 10px; margin-bottom: 0; background: var(--surface-2); }
+.summary-title { font-size: 13px; font-weight: 700; color: var(--text-2); text-transform: uppercase; letter-spacing: 0.06em; }
+.summary-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 10px; }
+.summary-val { font-size: 28px; font-weight: 800; line-height: 1.1; }
+.summary-val small { font-size: 14px; font-weight: 600; color: var(--text-2); }
+.summary-val.protein { color: var(--protein); }
+.summary-lbl { font-size: 13px; color: var(--text-2); margin-top: 2px; }
+.summary-line {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--border);
+  font-size: 15px; font-weight: 600;
+}
+.summary-line .small { font-weight: 400; margin-top: 2px; }
+
+.back-btn {
+  display: inline-flex; align-items: center; gap: 2px;
+  min-height: 44px; padding: 0 8px 0 0; margin: 0 0 -4px -6px;
+  background: none; border: 0; color: var(--accent); font-weight: 600; font-size: 17px;
+}
+.back-btn svg { width: 24px; height: 24px; }
+
+/* ===== Stikalo ===== */
+.switch {
+  position: relative; flex-shrink: 0;
+  width: 52px; height: 32px; border-radius: 99px; border: 0; padding: 0;
+  background: var(--surface-3);
+  transition: background 200ms ease;
+}
+.switch .knob {
+  position: absolute; top: 2px; left: 2px; width: 28px; height: 28px; border-radius: 50%;
+  background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  transition: transform 200ms ease;
+}
+.switch[aria-checked="true"] { background: var(--fat); }
+.switch[aria-checked="true"] .knob { transform: translateX(20px); }
+
+.head-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
+.date-pick {
+  position: relative; display: inline-flex; align-items: center;
+  min-height: 40px; padding: 0 14px; border-radius: 12px;
+  background: var(--surface-2); color: var(--accent); font-weight: 600; font-size: 15px;
+}
+/* domači izbirnik datuma prekrije gumb, a je neviden */
+.date-pick .date-input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; border: 0; }
