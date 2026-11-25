@@ -607,3 +607,14 @@ button.row:active, .row.tappable:active { background: var(--surface-2); }
 }
 .select-field option { color: #111; }
 .kv > :last-child { white-space: nowrap; flex-shrink: 0; text-align: right; }
+
+/* ===== Širok zaslon (računalnik): vrstica z zavihki in gumb ostaneta ob vsebini ===== */
+@media (min-width: 680px) {
+  .tabbar {
+    left: 50%; right: auto; width: 640px; transform: translateX(-50%);
+    border-radius: 18px 18px 0 0;
+    border-left: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: 1px solid rgba(255, 255, 255, 0.06);
+  }
+  .fab { right: calc(50% - 320px + 16px); }
+}
