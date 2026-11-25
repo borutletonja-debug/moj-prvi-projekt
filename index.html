@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="sl" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Tilen Letonja</title>
+  <meta name="description" content="Beleženje hrane, štetje kalorij in spremljanje teže.">
+
+  <!-- iPhone: samostojna aplikacija z začetnega zaslona -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Tilen">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0b0b0f">
+  <meta name="format-detection" content="telephone=no">
+  <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+  <link rel="manifest" href="manifest.webmanifest">
+
+  <script>
+    // tema pred prvim izrisom (brez utripanja)
+    try {
+      var t = localStorage.getItem('theme');
+      if (t === 'light' || t === 'dark' || t === 'system') document.documentElement.dataset.theme = t;
+    } catch (e) {}
+  </script>
+  <link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+  <header class="appbar">Tilen Letonja</header>
+  <main id="screen" class="screen" aria-live="polite"></main>
+  <nav id="tabbar" class="tabbar" aria-label="Zavihki"></nav>
+  <noscript><p style="padding:20px">Za delovanje aplikacije je potreben JavaScript.</p></noscript>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>
