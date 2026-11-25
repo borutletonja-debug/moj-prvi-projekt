@@ -13,10 +13,10 @@ export function signedRate(weightGoal) {
 
 /**
  * Priporočen vnos = TDEE + (tempo v kg/teden × 7700 / 7).
- * Vrne { target, recommended, adjustment, floor, belowFloor, tooFast, maxSafeRate, minor }.
+ * Vrne { target, recommended, adjustment, floor, belowFloor, tooFast, maxSafeRate }.
  * `recommended` je zaokrožen na 10 kcal in nikoli pod varno mejo.
  */
-export function recommend({ tdee, rateKgPerWeek, sex, weightKg, age }) {
+export function recommend({ tdee, rateKgPerWeek, sex, weightKg }) {
   if (!Number.isFinite(tdee)) return null;
   const adjustment = (rateKgPerWeek * KCAL_PER_KG) / 7;
   const target = tdee + adjustment;
@@ -32,7 +32,5 @@ export function recommend({ tdee, rateKgPerWeek, sex, weightKg, age }) {
     // hujšanje hitreje od 1 % telesne teže na teden
     tooFast: rateKgPerWeek < 0 && maxSafeRate !== null && -rateKgPerWeek > maxSafeRate + 1e-9,
     maxSafeRate,
-    // formule so namenjene odraslim
-    minor: Number.isFinite(age) && age < 18,
   };
 }

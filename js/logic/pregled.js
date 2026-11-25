@@ -33,9 +33,8 @@ export function buildOverview({ entries, dayFlags, weights, settings, today }) {
   });
 
   const rate = signedRate(settings.weightGoal);
-  const age = settings.profile?.birthYear ? Number(today.slice(0, 4)) - settings.profile.birthYear : null;
   const recommendation = recommend({
-    tdee: estimate.tdee, rateKgPerWeek: rate, sex: settings.profile?.sex, weightKg: estimate.weightKg, age,
+    tdee: estimate.tdee, rateKgPerWeek: rate, sex: settings.profile?.sex, weightKg: estimate.weightKg,
   });
 
   return {
