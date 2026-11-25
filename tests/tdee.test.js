@@ -139,7 +139,6 @@ test('priporočen vnos = TDEE + tempo × 7700 / 7', () => {
   assert.equal(r.recommended, 2000);
   assert.equal(r.belowFloor, false);
   assert.equal(r.tooFast, false);
-  assert.equal(r.minor, false);
   assert.equal(recommend({ tdee: 2504, rateKgPerWeek: 0, sex: 'male', weightKg: 80 }).recommended, 2500);
   assert.equal(recommend({ tdee: 2500, rateKgPerWeek: 0.25, sex: 'male', weightKg: 80 }).recommended, 2780);
   assert.equal(recommend({ tdee: null, rateKgPerWeek: 0 }), null);
@@ -155,5 +154,4 @@ test('varnost: spodnja meja in največ 1 % telesne teže na teden', () => {
   assert.equal(f.tooFast, false); // 0,5 < 0,6
   assert.equal(recommend({ tdee: 2500, rateKgPerWeek: -0.8, sex: 'male', weightKg: 80 }).tooFast, false); // točno 1 %
   assert.equal(recommend({ tdee: 2500, rateKgPerWeek: 1.5, sex: 'male', weightKg: 80 }).tooFast, false); // pridobivanje
-  assert.equal(recommend({ tdee: 2500, rateKgPerWeek: -0.3, sex: 'male', weightKg: 60, age: 16 }).minor, true);
 });

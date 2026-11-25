@@ -1,6 +1,6 @@
 // Service worker: aplikacija deluje brez internetne povezave.
 // Ob vsaki objavi povečaj VERSION (in APP_VERSION v js/verzija.js).
-const VERSION = '1.2.0';
+const VERSION = '1.2.1';
 const CACHE = `tilen-letonja-${VERSION}`;
 
 const FILES = [

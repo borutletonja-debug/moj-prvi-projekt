@@ -160,9 +160,6 @@ function recommendationCard(o, settings, today) {
     : `poraba ${formatKcal(o.estimate.tdee)} ${o.rate < 0 ? '−' : '+'} ${formatKcal(Math.abs(r.adjustment))} kcal (${rateTxt})`;
 
   const warnings = [];
-  if (r.minor) {
-    warnings.push('Formule in priporočila v tej aplikaciji so namenjeni odraslim. Pri mlajših od 18 let se o hujšanju in omejevanju kalorij posvetuj z zdravnikom.');
-  }
   if (r.tooFast) {
     warnings.push(`Želeni tempo hujšanja (${formatNumber(Math.abs(o.rate))} kg/teden) je večji od 1 % telesne teže na teden (${formatNumber(r.maxSafeRate, 1)} kg). Izberi počasnejši tempo.`);
   }
