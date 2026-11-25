@@ -1,6 +1,6 @@
 // Service worker: aplikacija deluje brez internetne povezave.
 // Ob vsaki objavi povečaj VERSION (in APP_VERSION v js/verzija.js).
-const VERSION = '1.1.0';
+const VERSION = '1.2.0';
 const CACHE = `tilen-letonja-${VERSION}`;
 
 const FILES = [
@@ -17,16 +17,21 @@ const FILES = [
   './js/logic/iskanje.js',
   './js/logic/izvoz.js',
   './js/logic/nastavitve.js',
+  './js/logic/pregled.js',
   './js/logic/prehrana.js',
+  './js/logic/priporocilo.js',
   './js/logic/stevila.js',
+  './js/logic/tdee.js',
   './js/logic/tedni.js',
+  './js/logic/teza.js',
   './js/ui/dan.js',
   './js/ui/zgodovina.js',
   './js/ui/danes.js',
-  './js/ui/kmalu.js',
+  './js/ui/graf.js',
   './js/ui/knjiznica.js',
   './js/ui/komponente.js',
   './js/ui/nastavitve.js',
+  './js/ui/teza.js',
   './js/ui/vnos.js',
   './js/ui/zivilo.js',
   './icons/apple-touch-icon.png',

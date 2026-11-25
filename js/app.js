@@ -6,12 +6,12 @@ import * as danes from './ui/danes.js';
 import * as knjiznica from './ui/knjiznica.js';
 import * as nastavitve from './ui/nastavitve.js';
 import * as zgodovina from './ui/zgodovina.js';
-import * as kmalu from './ui/kmalu.js';
+import * as teza from './ui/teza.js';
 
 const TABS = [
   { id: 'danes', label: 'Danes', icon: 'today', render: (root, ctx) => danes.render(root, ctx) },
   { id: 'zgodovina', label: 'Zgodovina', icon: 'history', render: (root, ctx, param) => zgodovina.render(root, ctx, param) },
-  { id: 'teza', label: 'Teža', icon: 'weight', render: (root, ctx) => kmalu.render(root, ctx, 'teza') },
+  { id: 'teza', label: 'Teža', icon: 'weight', render: (root, ctx) => teza.render(root, ctx) },
   { id: 'knjiznica', label: 'Knjižnica', icon: 'library', render: (root, ctx) => knjiznica.render(root, ctx) },
   { id: 'nastavitve', label: 'Nastavitve', icon: 'settings', render: (root, ctx) => nastavitve.render(root, ctx) },
 ];
@@ -28,7 +28,7 @@ function applyTheme(theme) {
   try { localStorage.setItem('theme', theme); } catch { /* */ }
 }
 
-const ctx = { navigate, applyTheme };
+const ctx = { navigate, applyTheme, rerender: () => show(current, currentParam, { keepScroll: true }) };
 
 /** '#zgodovina/2026-11-20' -> { id: 'zgodovina', param: '2026-11-20' } */
 function routeFromHash() {

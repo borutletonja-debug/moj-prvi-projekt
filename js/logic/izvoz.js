@@ -89,3 +89,8 @@ export function foodsCSV(foods) {
     ]),
   );
 }
+
+export function weightsCSV(weights) {
+  const sorted = [...weights].sort((a, b) => a.date.localeCompare(b.date));
+  return toCSV(['Datum', 'Teža (kg)'], sorted.map((w) => [w.date, formatNumber(w.kg, 2)]));
+}

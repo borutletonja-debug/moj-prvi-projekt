@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { parseNumber, validateNumber, formatKcal, formatMacro, formatNumber } from '../js/logic/stevila.js';
+import { parseNumber, validateNumber, formatKcal, formatMacro, formatNumber, formatSigned } from '../js/logic/stevila.js';
 
 test('parseNumber sprejme vejico in piko', () => {
   assert.equal(parseNumber('0,5'), 0.5);
@@ -45,4 +45,8 @@ test('formatiranje: kcal cela števila, makrohranila 1 decimalka', () => {
   assert.equal(formatNumber(150), '150');
   assert.equal(formatNumber(1 / 3), '0,33');
   assert.equal(formatKcal(NaN), '–');
+  assert.equal(formatSigned(0.34), '+0,3');
+  assert.equal(formatSigned(-0.46), '\u22120,5');
+  assert.equal(formatSigned(-0.01), '0,0');
+  assert.equal(formatSigned(-350, 0), '\u2212350');
 });

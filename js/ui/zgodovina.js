@@ -1,8 +1,7 @@
 // Zaslon »Zgodovina«: dnevi po tednih s povzetki in podrobnosti dne.
 import { h, setChildren, icon, macroChips } from './komponente.js';
 import { dayView } from './dan.js';
-import { buildWeeks } from '../logic/tedni.js';
-import { goalsForDate } from '../logic/nastavitve.js';
+import { buildOverview } from '../logic/pregled.js';
 import { formatKcal, formatMacro } from '../logic/stevila.js';
 import { todayKey, formatDayLong, formatDayShort, formatWeekRange, formatDateShort, isValidDateKey } from '../logic/datumi.js';
 import { count, plural } from '../logic/besedilo.js';
@@ -32,12 +31,8 @@ async function renderDay(root, ctx, date) {
 async function renderList(root, ctx) {
   const settings = stanje.settings();
   const today = todayKey();
-  const [entries, dayFlags] = await Promise.all([stanje.getEntries(), stanje.getDays()]);
-  const weeks = buildWeeks({
-    entries, dayFlags, today,
-    goalsForDate: (d) => goalsForDate(settings, d),
-    tolerancePct: settings.tolerancePct,
-  });
+  const [entries, dayFlags, weights] = await Promise.all([stanje.getEntries(), stanje.getDays(), stanje.getWeights()]);
+  const { weeks } = buildOverview({ entries, dayFlags, weights, settings, today });
 
   // Odpri poljuben pretekli dan (tudi brez vnosov), npr. za naknadni vpis.
   const datePicker = h('input', { type: 'date', max: today, value: today, class: 'date-input', 'aria-label': 'Izberi dan' });
@@ -131,12 +126,30 @@ function weekSummary(w, tolerancePct) {
       ),
     ),
     goalLine,
-    h('div', { class: 'summary-line' },
-      h('div', {},
-        h('div', {}, 'Deficit ali presežek glede na porabo'),
-        h('div', { class: 'muted small' }, 'Na voljo v fazi 3, ko bo dodano spremljanje teže.'),
-      ),
-    ),
+    balanceLine(s),
     h('div', { class: 'muted small', style: 'margin-top: 10px' }, notes.join(' · ')),
+  );
+}
+
+/** Ocenjen dnevni deficit ali presežek glede na ocenjeno porabo (TDEE). */
+function balanceLine(s) {
+  if (s.balance === null) {
+    return h('div', { class: 'summary-line' },
+      h('div', {},
+        h('div', {}, 'Deficit ali presežek: ni ocene porabe'),
+        h('div', { class: 'muted small' }, 'V zavihku Teža dodaj meritev, v Nastavitvah pa osebne podatke.'),
+      ));
+  }
+  const tdee = s.avgKcal - s.balance;
+  const rounded = Math.round(s.balance);
+  const text = rounded === 0
+    ? 'Vnos je enak ocenjeni porabi'
+    : `${formatKcal(Math.abs(s.balance))} kcal ${s.balance < 0 ? 'deficita' : 'presežka'} na dan`;
+  return h('div', { class: 'summary-line' },
+    h('div', {},
+      h('div', { class: 'num' }, text),
+      h('div', { class: 'muted small num' }, `glede na ocenjeno porabo ${formatKcal(tdee)} kcal`),
+    ),
+    rounded === 0 ? null : h('span', { class: 'badge' }, s.balance < 0 ? 'Deficit' : 'Presežek'),
   );
 }

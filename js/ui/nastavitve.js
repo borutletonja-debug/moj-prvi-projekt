@@ -1,7 +1,10 @@
 // Zaslon »Nastavitve«.
 import { h, setChildren, field, segmented, chainInputs, confirmDialog, toast } from './komponente.js';
-import { validateGoals, macroMismatch, withGoalChange, validateTolerance } from '../logic/nastavitve.js';
-import { buildBackup, validateBackup, entriesCSV, foodsCSV } from '../logic/izvoz.js';
+import {
+  validateGoals, macroMismatch, withGoalChange, validateTolerance, validateProfile, validateWeightGoal, ACTIVITY_KEYS,
+} from '../logic/nastavitve.js';
+import { ACTIVITY } from '../logic/tdee.js';
+import { buildBackup, validateBackup, entriesCSV, foodsCSV, weightsCSV } from '../logic/izvoz.js';
 import { formatKcal, formatNumber } from '../logic/stevila.js';
 import { todayKey, formatDateShort } from '../logic/datumi.js';
 import { APP_VERSION } from '../verzija.js';
@@ -59,6 +62,41 @@ export async function render(root, ctx) {
   saveGoalsBtn.addEventListener('click', saveGoals);
   checkGoals();
 
+  // ----- Osebni podatki in cilj teže -----
+  const p = s.profile;
+  const wg = s.weightGoal;
+  let sex = p.sex;
+  let direction = wg.direction;
+  const sexPicker = segmented([{ value: 'male', label: 'Moški' }, { value: 'female', label: 'Ženska' }], sex, (v) => { sex = v; }, 'Spol');
+  const birthYear = field({ label: 'Letnica rojstva', value: p.birthYear ?? '', placeholder: 'npr. 2004' });
+  birthYear.input.setAttribute('inputmode', 'numeric');
+  const height = field({ label: 'Višina', value: p.heightCm ? formatNumber(p.heightCm) : '', suffix: 'cm', placeholder: 'npr. 180' });
+  const activity = h('select', { class: 'select-field', 'aria-label': 'Raven aktivnosti' },
+    h('option', { value: '' }, 'Izberi …'),
+    ACTIVITY_KEYS.map((k) => h('option', { value: k, selected: p.activity === k }, `${ACTIVITY[k].label} (${ACTIVITY[k].hint})`)),
+  );
+  const targetKg = field({ label: 'Ciljna teža', value: wg.targetKg ? formatNumber(wg.targetKg) : '', suffix: 'kg', placeholder: 'neobvezno' });
+  const rate = field({ label: 'Želeni tempo', value: formatNumber(wg.rateKgPerWeek), suffix: 'kg na teden', help: 'Zmerno: 0,25–0,5 kg na teden.' });
+  const showRate = () => { rate.el.hidden = direction === 'maintain'; };
+  const directionPicker = segmented(
+    [{ value: 'lose', label: 'Hujšanje' }, { value: 'maintain', label: 'Vzdrževanje' }, { value: 'gain', label: 'Pridobivanje' }],
+    direction, (v) => { direction = v; showRate(); }, 'Cilj teže');
+  showRate();
+  const saveBody = async () => {
+    const pr = validateProfile({ sex, birthYear: birthYear.value, heightCm: height.value, activity: activity.value }, new Date().getFullYear());
+    const gr = validateWeightGoal({ targetKg: targetKg.value, direction, rateKgPerWeek: rate.value });
+    birthYear.setError(pr.errors.birthYear);
+    height.setError(pr.errors.heightCm);
+    targetKg.setError(gr.errors.targetKg);
+    rate.setError(gr.errors.rateKgPerWeek);
+    if (!pr.ok || !gr.ok) return;
+    document.activeElement?.blur();
+    await stanje.saveSettings({ profile: pr.value, weightGoal: gr.value });
+    toast('Shranjeno');
+  };
+  chainInputs([birthYear.input, height.input]);
+  chainInputs([targetKg.input, rate.input], saveBody);
+
   // ----- Videz -----
   const themePicker = segmented(
     [{ value: 'dark', label: 'Temno' }, { value: 'light', label: 'Svetlo' }, { value: 'system', label: 'Sistem' }],
@@ -88,6 +126,19 @@ export async function render(root, ctx) {
     h('div', { style: 'margin-top: 12px' }, mismatch),
     saveGoalsBtn,
 
+    h('div', { class: 'section-title' }, 'Osebni podatki'),
+    h('p', { class: 'muted small', style: 'margin: 0 4px 10px' }, 'Za začetno oceno dnevne porabe, dokler ni dovolj meritev. Ostanejo samo na tem telefonu.'),
+    h('div', { style: 'margin-bottom: 10px' }, sexPicker),
+    h('div', { class: 'list' },
+      birthYear.el, height.el,
+      h('label', { class: 'field' }, h('div', { class: 'field-label' }, h('span', {}, 'Raven aktivnosti')), activity),
+    ),
+
+    h('div', { class: 'section-title' }, 'Cilj teže'),
+    h('div', { style: 'margin-bottom: 10px' }, directionPicker),
+    h('div', { class: 'list' }, targetKg.el, rate.el),
+    h('button', { class: 'btn primary block', type: 'button', style: 'margin-top: 12px', onclick: saveBody }, 'Shrani osebne podatke in cilj teže'),
+
     h('div', { class: 'section-title' }, 'Videz'),
     themePicker,
 
@@ -109,6 +160,7 @@ export async function render(root, ctx) {
     h('div', { class: 'stack' },
       h('button', { class: 'btn block', type: 'button', onclick: exportEntriesCSV }, 'Izvozi vnose (CSV)'),
       h('button', { class: 'btn block', type: 'button', onclick: exportFoodsCSV }, 'Izvozi knjižnico (CSV)'),
+      h('button', { class: 'btn block', type: 'button', onclick: exportWeightsCSV }, 'Izvozi težo (CSV)'),
     ),
 
     h('div', { class: 'section-title' }, 'O aplikaciji'),
@@ -193,4 +245,10 @@ async function exportFoodsCSV() {
   const foods = await stanje.getFoods();
   if (!foods.length) { toast('Knjižnica je prazna'); return; }
   if (await saveFile(`knjiznica-${todayKey()}.csv`, foodsCSV(foods), 'text/csv')) toast('Knjižnica izvožena');
+}
+
+async function exportWeightsCSV() {
+  const weights = await stanje.getWeights();
+  if (!weights.length) { toast('Ni meritev teže za izvoz'); return; }
+  if (await saveFile(`teza-${todayKey()}.csv`, weightsCSV(weights), 'text/csv')) toast('Teža izvožena');
 }
