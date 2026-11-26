@@ -84,7 +84,8 @@ function buildTabbar() {
 
 // ----- Service worker in posodobitve -----
 function registerSW() {
-  if (!('serviceWorker' in navigator)) return;
+  // V načinu zaklepanja (Lockdown Mode) service worker ni na voljo – aplikacija deluje, a le s povezavo.
+  if (!navigator.serviceWorker?.register) return;
   navigator.serviceWorker.register('./sw.js').then((reg) => {
     const offer = (worker) => {
       if (document.querySelector('.update-banner')) return;
@@ -123,7 +124,7 @@ async function start() {
   } catch (e) {
     screen.replaceChildren(h('div', { class: 'card' },
       h('strong', {}, 'Shramba ni na voljo'),
-      h('p', { class: 'muted' }, 'Aplikacija ne more odpreti lokalne baze. V zasebnem načinu brskalnika shranjevanje ne deluje.'),
+      h('p', { class: 'muted' }, 'Brskalnik aplikaciji ne dovoli shranjevanja podatkov. Preveri, da ne uporabljaš zasebnega zavihka, in poskusi znova.'),
       h('p', { class: 'muted small' }, String(e?.message || e))));
     return;
   }

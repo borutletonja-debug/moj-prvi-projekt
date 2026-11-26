@@ -114,6 +114,7 @@ export async function render(root, ctx) {
   });
 
   const persisted = await isPersisted();
+  const limited = stanje.storageKind() === 'localStorage';
   const backupInfo = s.lastBackup ? formatDateShort(s.lastBackup) : 'še nikoli';
 
   setChildren(root,
@@ -146,10 +147,14 @@ export async function render(root, ctx) {
     h('div', { class: 'list' },
       h('div', { class: 'kv' }, h('span', { class: 'k' }, 'Zadnja varnostna kopija'), h('span', { class: 'num' }, backupInfo)),
       h('div', { class: 'kv' }, h('span', { class: 'k' }, 'Trajna shramba'), h('span', {}, persisted ? 'vklopljena' : 'ni potrjena')),
+      limited ? h('div', { class: 'kv' }, h('span', { class: 'k' }, 'Način shrambe'), h('span', {}, 'omejen')) : null,
     ),
     h('p', { class: 'muted small', style: 'margin: 8px 4px 12px' },
       'Podatki so shranjeni samo na tem telefonu. Če aplikacijo odstraniš z začetnega zaslona, se izbrišejo. '
       + 'Varnostno kopijo shrani v aplikacijo Datoteke ali iCloud Drive.'),
+    limited ? h('div', { class: 'notice' },
+      'Telefon ima vklopljen način zaklepanja (Lockdown Mode), zato aplikacija uporablja manjšo shrambo. '
+      + 'Prostora je za več let vnosov, a varnostno kopijo delaj redno.') : null,
     h('div', { class: 'stack' },
       h('button', { class: 'btn primary block', type: 'button', onclick: exportBackup }, 'Izvozi varnostno kopijo (JSON)'),
       h('button', { class: 'btn block', type: 'button', onclick: () => fileInput.click() }, 'Uvozi varnostno kopijo'),

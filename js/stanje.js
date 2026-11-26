@@ -124,3 +124,4 @@ export async function importAll(data) {
 }
 
 export const requestPersistence = db.requestPersistence;
+export const storageKind = db.storageKind;
